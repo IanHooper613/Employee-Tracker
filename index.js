@@ -40,9 +40,9 @@ function startQuestions() {
                viewByDepartment();
                break
               
-    //       case 'View all employees by manager':
-    //           viewByManager();
-    //           break
+           case 'View all employees by manager':
+               viewByManager();
+               break
               
     //       case 'Add an employee':
     //           addEmployee();
@@ -76,4 +76,16 @@ function viewByDepartment () {
         console.log(res)
         startQuestions()
     })
+}
+
+function viewByManager () {
+    connection.query('SELECT * FROM employee WHERE manager_id IS NOT NULL', function(error, res) {
+    //connection.query('SELECT * FROM employee WHERE manager_id IN (1,2,3,4)', function(error, res) {
+        if (error) throw error;
+    //connection.query('SELECT * FROM employee WHERE manager_id IS NULL', function(error) {
+      //  if (error) throw error;
+        console.log(res)
+        startQuestions()
+    })    
+    //})
 }
