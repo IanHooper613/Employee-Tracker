@@ -29,7 +29,7 @@ function startQuestions() {
               'View all employees by manager',
               'Add an employee',
               'Remove an employee',
-              'Update an emploee role',
+              'Update an employee role',
               'Update an employee manager',
               'Quit'
           ]
@@ -56,9 +56,9 @@ function startQuestions() {
     //            removeEmployee();
     //            break
 
-    //        case 'Update an emploee role':
-    //            updateRole();
-    //            break
+            case 'Update an employee role':
+                updateRole();
+                break
                
     //        case 'Update an employee manager':
     //            updateManager();
@@ -132,5 +132,35 @@ function addEmployee() {
             startQuestions()
          }
         )
+    })
+}
+
+function updateRole() {
+    connection.query('SELECT first_name, last_name, id FROM employee', function(error, response) {
+        if (error) throw error
+        let employee = response.map(employee =>({
+            name: employee.first_name + '' + employee.last_name
+        }))
+        inquirer.prompt([
+            {
+                type: 'list',
+                name: 'employeeName',
+                message: 'Which employee would you like to update?',
+                choices: employee
+            },
+            {
+                type: 'input',
+                name: 'newRole',
+                message: 'What is their new role?'
+            },
+        ]).then(function(response) {
+            connection.query('UPDATE role SET title = ?', 
+            {title: response.newRole}),
+            function(error) {
+                if(error) throw error
+                startQuestions()
+            }
+            startQuestions()
+        })
     })
 }
