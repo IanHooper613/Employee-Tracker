@@ -9,6 +9,9 @@ var connection = mysql.createConnection({
     database: 'company_db'
 });
 
+
+
+
 connection.connect(function(error) {
     if (error) throw error;
     startQuestions();
@@ -27,7 +30,8 @@ function startQuestions() {
               'Add an employee',
               'Remove an employee',
               'Update an emploee role',
-              'Update an employee manager'
+              'Update an employee manager',
+              'Quit'
           ]
       })
        .then(function(answer) {
@@ -44,9 +48,9 @@ function startQuestions() {
                viewByManager();
                break
               
-    //       case 'Add an employee':
-    //           addEmployee();
-    //           break
+           case 'Add an employee':
+               addEmployee();
+               break
               
     //        case 'Remove an employee':
     //            removeEmployee();
@@ -57,7 +61,10 @@ function startQuestions() {
     //            break
                
     //        case 'Update an employee manager':
-    //            updateManager();    
+    //            updateManager();
+                  //break
+                  
+              //case 'Quit'    
            }
        })
 }
@@ -88,4 +95,42 @@ function viewByManager () {
         startQuestions()
     })    
     //})
+}
+
+function addEmployee() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'firstName',
+            message: 'What is the employee first name?',
+        },
+        {
+            type: 'input',
+            name: 'lastName',
+            message: 'What is the employee last name?'
+        },
+        {
+            type: 'input',
+            name: 'roleId',
+            message: 'What is their role Id number?'
+        },
+        {
+            type: 'input',
+            name: 'managerId',
+            message: 'What is the manager Id?',
+            default: 0
+        }
+    ]).then(function(response) {
+        connection.query('INSERT INTO employee SET ?', 
+        {first_name: response.firstName,
+        last_name: response.lastName,
+        role_id: response.roleId,
+        manager_id: response.managerId},
+        function(error) {
+            if (error) throw error
+            console.log('Employee added successfully')
+            startQuestions()
+         }
+        )
+    })
 }
