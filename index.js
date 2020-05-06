@@ -36,9 +36,9 @@ function startQuestions() {
                viewEmployees();
                break;
               
-    //       case 'View all employees by department':
-    //           viewByDepartment();
-    //           break
+           case 'View all employees by department':
+               viewByDepartment();
+               break
               
     //       case 'View all employees by manager':
     //           viewByManager();
@@ -66,6 +66,14 @@ function viewEmployees() {
     connection.query('SELECT * FROM employee', function(error, res) {
         if (error) throw error;
         console.log(res);
-        connection.end();
+        startQuestions()
+    })
+}
+
+function viewByDepartment () {
+    connection.query('SELECT * FROM department', function(error, res) {
+        if (error) throw error;
+        console.log(res)
+        startQuestions()
     })
 }
