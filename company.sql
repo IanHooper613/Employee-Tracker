@@ -1,15 +1,20 @@
+-- Drops the company_db if it exists currently --
 DROP DATABASE IF EXISTS company_db;
 
+-- Creates the "company_db" database --
 CREATE DATABASE company_db;
 
+-- Makes it so all of the following code will affect company_db --
 USE company_db;
 
+-- Creates the table "department" within company_db --
 CREATE TABLE department (
 	id INTEGER(10) NOT NULL AUTO_INCREMENT,
     name VARCHAR(30) NOT NULL,
     PRIMARY KEY (id)
 );
 
+-- Creates the table "role" within company_db --
 CREATE TABLE role (
 	id INTEGER(10) NOT NULL AUTO_INCREMENT,
     title VARCHAR(30) NOT NULL,
@@ -19,6 +24,7 @@ CREATE TABLE role (
     FOREIGN KEY (department_id) references department (id)
 );
 
+-- Creates the table "employee" within company_db --
 CREATE TABLE employee (
 	id INTEGER(10) NOT NULL AUTO_INCREMENT,
     first_name VARCHAR(30) NOT NULL,
@@ -30,6 +36,7 @@ CREATE TABLE employee (
     FOREIGN KEY (manager_id) references role (id)
 );
 
+-- Creates new rows containing data in all named columns --
 INSERT INTO department (name)
 VALUES ("Sales");
 INSERT INTO department (name)
@@ -38,7 +45,6 @@ INSERT INTO department (name)
 VALUES ("Finance");
 INSERT INTO department (name)
 VALUES ("Legal");
-
 
 INSERT INTO role (title, salary, department_id)
 VALUES ("Sales Lead", 70000, 1);
