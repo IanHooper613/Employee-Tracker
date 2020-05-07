@@ -24,6 +24,7 @@ function startQuestions() {
           type: 'rawlist',
           message: 'What would you like to do?',
           choices: [
+              'Add a department',
               'View all employees',
               'View all employees by department',
               'View all employees by manager',
@@ -36,6 +37,14 @@ function startQuestions() {
       })
        .then(function(answer) {
            switch(answer.action) {
+           case 'Add a department':
+               addDepartment();
+               break
+
+           case 'Add a role':
+               addRole();
+               break   
+
            case 'View all employees':
                viewEmployees();
                break;
@@ -68,6 +77,26 @@ function startQuestions() {
            }
        })
 }
+
+function addDepartment() {
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'deptName',
+            message: 'What department would you like to add?'
+        }
+    ]).then(function(response) {
+        connection.query('INSERT INTO department SET ?', 
+        {name: response.deptName}, function(error) {
+            if (error) throw error
+            console.log('Your new department has been added')
+            startQuestions()
+        })
+    })
+}
+
+
+
 
 function viewEmployees() {
     connection.query('SELECT * FROM employee', function(error, res) {
