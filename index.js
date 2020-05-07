@@ -106,7 +106,9 @@ function addDepartment() {
         connection.query('INSERT INTO department SET ?', 
         {name: response.deptName}, function(error) {
             if (error) throw error
+            console.log('==================================')
             console.log('Your new department has been added')
+            console.log('==================================')
             startQuestions()
         })
     })
@@ -146,7 +148,9 @@ function addRole() {
         department_id: response.deptId},
         function(error) {
             if (error) throw error
+            console.log('=================================')
             console.log('Your employee role has been added')
+            console.log('=================================')
             startQuestions()
         })
     })
@@ -184,7 +188,9 @@ function addEmployee() {
         manager_id: response.managerId},
         function(error) {
             if (error) throw error
+            console.log('===========================')
             console.log('Employee added successfully')
+            console.log('===========================')
             startQuestions()
          }
         )
@@ -202,7 +208,7 @@ function viewByDepartment () {
 
 //Viewing all roles in company
 function viewRoles() {
-    connection.query('SELECT * FROM role', function(error, res) {
+    connection.query('SELECT role.id, role.title, department.name, role.salary FROM role JOIN department ON department.id = role.id', function(error, res) {
         if (error) throw error;
         console.table(res)
         startQuestions()
@@ -242,6 +248,9 @@ function updateRole() {
             {title: response.newRole}),
             function(error) {
                 if(error) throw error
+                console.log('===================================')
+                console.log('Your employee role has been updated')
+                console.log('===================================')
             }
             startQuestions()
         })
