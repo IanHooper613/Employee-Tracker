@@ -25,6 +25,7 @@ function startQuestions() {
           message: 'What would you like to do?',
           choices: [
               'Add a department',
+              'Add an employment role',
               'View all employees',
               'View all employees by department',
               'View all employees by manager',
@@ -41,7 +42,7 @@ function startQuestions() {
                addDepartment();
                break
 
-           case 'Add a role':
+           case 'Add an employment role':
                addRole();
                break   
 
@@ -95,7 +96,44 @@ function addDepartment() {
     })
 }
 
-
+function addRole() {
+     let department = []
+     connection.query('SELECT * FROM department', function(error, response) {
+         if (error) throw error
+         for (let i = 0; i < response.length; i++) {
+             department.push({name: response.name, value: response.id})
+         }
+        
+    })
+    inquirer.prompt([
+        {
+            type: 'input',
+            name: 'roleTitle',
+            message: 'What is the title of the role?'
+        },
+        {
+            type: 'input',
+            name: 'salary',
+            message: 'What is the salary for the role?',
+        },
+        {
+            type: 'input',
+            name: 'deptId',
+            message: 'What is the department Id number?',
+            choices: department,
+        }
+    ]).then(function(response) {
+        connection.query('INSERT INTO role SET ?', 
+        {title: response.roleTitle,
+        salary: response.salary,
+        department_id: response.deptId},
+        function(error) {
+            if (error) throw error
+            console.log('Your employee role has been added')
+            startQuestions()
+        })
+    })
+}
 
 
 function viewEmployees() {
