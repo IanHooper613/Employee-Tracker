@@ -18,7 +18,7 @@ https://www.screencast.com/t/LD4z1PuzO5y7
 
 
 ## Table of Contents
-  * [Starting Off](#Starting_Off)  
+  * [Starting](#Starting)  
   * [Installation](#Installation)
   * [Credits](#Credits)
   * [License](#License)
@@ -30,8 +30,7 @@ https://www.screencast.com/t/LD4z1PuzO5y7
 
 
   ## Starting Off
-  I started this application by building a simple datatbase in MySQL Workbench.  The database consited of a few simple tables that were populated with data.  
-  The database in MySQL needed to be linked to the index.js file in order for the  application to work.
+  I started this application by building a simple datatbase in MySQL Workbench.  The database consited of a few simple tables that were populated with data.  The  database in MySQL Workbencb needed to be linked to the index.js file in order for the application to work.
 
 
 
@@ -40,7 +39,7 @@ https://www.screencast.com/t/LD4z1PuzO5y7
   ## Installation
   I used the MySQL NPM package to connect to the database to perform queries.
   The Inquirer NPM package is needed to interact with the user via the command-line.
-  The following shows what to write at the command line in order to be able to run the application:
+  The following shows what to write at the command line first, in order to be able to run the application:
 
 
   * npm init
