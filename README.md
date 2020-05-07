@@ -29,7 +29,7 @@ https://www.screencast.com/t/LD4z1PuzO5y7
 
 
 
-  ## Starting Off
+  ## Starting
   I started this application by building a simple datatbase in MySQL Workbench.  The database consited of a few simple tables that were populated with data.  The  database in MySQL Workbencb needed to be linked to the index.js file in order for the application to work.
 
 
