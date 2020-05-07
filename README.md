@@ -15,6 +15,8 @@ This application is a Content Management System that can manage a company's empl
 https://www.screencast.com/t/LD4z1PuzO5y7
 
 
+
+
 ## Table of Contents
   * [Starting Off](#Starting_Off)  
   * [Installation](#Installation)
@@ -25,9 +27,13 @@ https://www.screencast.com/t/LD4z1PuzO5y7
 
 
 
+
+
   ## Starting Off
   I started this application by building a simple datatbase in MySQL Workbench.  The database consited of a few simple tables that were populated with data.  
   The database in MySQL needed to be linked to the index.js file in order for the  application to work.
+
+
 
 
 
@@ -44,14 +50,20 @@ https://www.screencast.com/t/LD4z1PuzO5y7
 
 
 
+
+
   ## Credits
   Mike Hoyt played a big part in getting this application to work.
 
 
 
 
+
+
   ## License
   Currently there are not any licenses for this application.  We hope to have a license in the near future.
+
+
 
 
 
