@@ -1,22 +1,44 @@
+//Adding Dependencies
 var mysql = require('mysql')
 var inquirer = require('inquirer')
 
+//Allows the opening script of application
+const showBanner = require('node-banner')
+
+
+//Creates connection to the Mysql database
 var connection = mysql.createConnection({
+    //host    
     host: 'localhost',
+    //your port
     port: 3306,
+    //Your username
     user: 'root',
+    //Your password
     password: 'Beckham8*',
     database: 'company_db'
 });
 
 
+//Opening logo (banner) display
+(async () => {
+    await showBanner('Employee Tracker','','blue')
+})();
 
 
+//Connection
 connection.connect(function(error) {
     if (error) throw error;
     startQuestions();
 });
 
+
+//Build a command-line application that that allows the user to:
+// * Add departments, roles, employees
+// * View departments, roles, employees
+// * Update employee roles
+
+//Initial Start Function
 function startQuestions() {
     inquirer
       .prompt({
@@ -26,59 +48,53 @@ function startQuestions() {
           choices: [
               'Add a department',
               'Add an employment role',
-              'View all employees',
-              'View all employees by department',
-              'View all employees by manager',
               'Add an employee',
-              'Remove an employee',
+              'View all departments',
+              'View all employment roles',
+              'View all employees',
               'Update an employee role',
-              'Update an employee manager',
               'Quit'
           ]
       })
        .then(function(answer) {
            switch(answer.action) {
+           //Adds a department    
            case 'Add a department':
                addDepartment();
                break
-
+           //Adds a role 
            case 'Add an employment role':
                addRole();
                break   
-
+           //Adds an employee 
+           case 'Add an employee':
+                addEmployee();
+                break    
+           //Views all departments 
+           case 'View all departments':
+                viewByDepartment();
+                break 
+           //Views all roles     
+           case 'View all employment roles':
+                viewRoles();
+                break  
+           //Views all employees 
            case 'View all employees':
                viewEmployees();
-               break;
-              
-           case 'View all employees by department':
-               viewByDepartment();
-               break
-              
-           case 'View all employees by manager':
-               viewByManager();
-               break
-              
-           case 'Add an employee':
-               addEmployee();
-               break
-              
-    //        case 'Remove an employee':
-    //            removeEmployee();
-    //            break
-
-            case 'Update an employee role':
+               break              
+           //Updates an employee role 
+           case 'Update an employee role':
                 updateRole();
                 break
-               
-    //        case 'Update an employee manager':
-    //            updateManager();
-                  //break
-                  
-              //case 'Quit'    
+           //Exits the application       
+              case 'Quit':
+                connection.end();      
            }
        })
 }
 
+
+//Adding a department
 function addDepartment() {
     inquirer.prompt([
         {
@@ -96,6 +112,7 @@ function addDepartment() {
     })
 }
 
+//Adding a role
 function addRole() {
      let department = []
      connection.query('SELECT * FROM department', function(error, response) {
@@ -135,35 +152,7 @@ function addRole() {
     })
 }
 
-
-function viewEmployees() {
-    connection.query('SELECT * FROM employee', function(error, res) {
-        if (error) throw error;
-        console.log(res);
-        startQuestions()
-    })
-}
-
-function viewByDepartment () {
-    connection.query('SELECT * FROM department', function(error, res) {
-        if (error) throw error;
-        console.log(res)
-        startQuestions()
-    })
-}
-
-function viewByManager () {
-    connection.query('SELECT * FROM employee WHERE manager_id IS NOT NULL', function(error, res) {
-    //connection.query('SELECT * FROM employee WHERE manager_id IN (1,2,3,4)', function(error, res) {
-        if (error) throw error;
-    //connection.query('SELECT * FROM employee WHERE manager_id IS NULL', function(error) {
-      //  if (error) throw error;
-        console.log(res)
-        startQuestions()
-    })    
-    //})
-}
-
+//Adding an employee
 function addEmployee() {
     inquirer.prompt([
         {
@@ -202,6 +191,34 @@ function addEmployee() {
     })
 }
 
+//Viewing all departments
+function viewByDepartment () {
+    connection.query('SELECT * FROM department', function(error, res) {
+        if (error) throw error;
+        console.table(res)
+        startQuestions()
+    })
+}
+
+//Viewing all roles in company
+function viewRoles() {
+    connection.query('SELECT * FROM role', function(error, res) {
+        if (error) throw error;
+        console.table(res)
+        startQuestions()
+    })
+}
+
+//Viewing all employees in company
+function viewEmployees() {
+    connection.query('SELECT employee.id, employee.first_name, employee.last_name, manager_id FROM employee', function(error, res) {
+        if (error) throw error;
+        console.table(res);
+        startQuestions()
+    })
+}
+
+//Updates an employee role
 function updateRole() {
     connection.query('SELECT first_name, last_name, id FROM employee', function(error, response) {
         if (error) throw error
@@ -225,7 +242,6 @@ function updateRole() {
             {title: response.newRole}),
             function(error) {
                 if(error) throw error
-                startQuestions()
             }
             startQuestions()
         })
